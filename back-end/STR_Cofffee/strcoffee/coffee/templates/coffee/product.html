@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>{{product.name}}</h1>
+
+<p>{{product.description}}</p>
+
+<div class="comment-wrapper">
+    <h3>Remarkable</h3>
+    <hr>
+
+    {% for remarkable in product_remarkables %}
+    <div>
+        <small>@{{remarkable.user}} {{remarkable.created|timesince}} ago </small>
+        <p>{{remarkable.body}}</p>
+        {% if request.user == remarkable.user %}
+        <a href="{% url 'update-remarkable' remarkable.id %}">Edit</a>
+        {% endif %}
+        {% if request.user == remarkable.user or request.user.username == 'strcoffee' %}
+        <a href="{% url 'delete-remarkable' remarkable.id %}">Delete</a>
+        {% endif %}
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+
+{% if request.user.is_authenticated %}
+<div class="comment-form">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" name="body" placeholder="Write you remarkable here...">
+
+    </form>
+
+</div>
+{% endif %}
+
+{% endblock content %}
+

@@ -1,0 +1,16 @@
+<!-- pay_a_bill.html -->
+
+{% extends 'main.html' %}
+
+{% block content %}
+    <h2>Pay a Bill</h2>
+    <ul>
+        {% for product, totals in product_totals.items %}
+            <li>
+                {{ product.name }} - Quantity: {{ totals.total_quantity }} - Total Price: {{ totals.total_price }}đ
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <p><strong>Grand Total:</strong> {{ grand_total }}đ</p>
+{% endblock content %}

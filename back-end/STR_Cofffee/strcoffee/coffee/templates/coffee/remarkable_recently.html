@@ -1,0 +1,10 @@
+<h3>Recent comments</h3>
+<hr>
+{% for remarkable in product_remarkables %}
+<div>
+    <small>@{{remarkable.user}} {{remarkable.created|timesince}} ago</small>
+    <small>replied to "{{remarkable.product}}"</small>
+
+    <p>{{remarkable}}</p>
+</div>
+{% endfor %}

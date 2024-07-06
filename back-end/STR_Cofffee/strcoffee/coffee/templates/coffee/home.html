@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 20px;
+    }
+</style>
+
+<div class="home-container">
+    
+    <div>
+        <h3>Kind of Products</h3>
+        <hr>
+
+        <div>
+            <a href="{% url 'home' %}">All</a>
+        </div>
+
+        {% for category in categories %}
+            <div>
+                <a href="{% url 'home' %}?p={{category.name}}">{{category.name}}</a>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <h5>{{product_count}} products available</h5>
+        <form method="GET" action="{% url 'home' %}">
+            <input type="text" name="q" placeholder="Search products..."/>
+        </form>
+        {% if request.user.username == 'strcoffee' %}
+        <a href="{% url 'create-product' %}">Add Product</a>
+        {% endif %}
+        <div>
+            {% for product in products %}
+            <div>
+                <img src="{{ product.image }}" style="width: 100px; height: auto;">
+                <div>Name of product: <a href="{% url 'product' product.id %}">{{product.name}}</a></div>
+                <div>Price: {{product.price}}</div>
+                <div>Description: {{product.description}}</div>
+                {% if request.user == product.host %}
+                <a href="{% url 'update-product' product.id %}">Edit</a>
+                <a href="{% url 'delete-product' product.id %}">Delete</a>
+                {% endif %}
+                <a href="{% url 'purchase-product' product.id %}">Order</a>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div>
+        {% include 'coffee/remarkable_recently.html' %}
+    </div>
+</div>
+{% endblock content %}
